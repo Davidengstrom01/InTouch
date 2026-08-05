@@ -1,24 +1,41 @@
-//
-//  ContentView.swift
-//  InTouch
-//
-//  Created by David Engström on 2026-08-05.
-//
-
+import Contacts
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
-}
+    @AppStorage("hasCompletedPrivacyIntro") private var hasCompletedPrivacyIntro = false
+    @Environment(\.scenePhase) private var scenePhase
 
-#Preview {
-    ContentView()
+    let model: AppModel
+    let skipOnboarding: Bool
+
+    init(model: AppModel, skipOnboarding: Bool = false) {
+        self.model = model
+        self.skipOnboarding = skipOnboarding
+    }
+
+    var body: some View {
+        Group {
+            if hasCompletedPrivacyIntro || skipOnboarding {
+                HomeView(model: model)
+            } else {
+                OnboardingView {
+                    hasCompletedPrivacyIntro = true
+                    await model.requestContactsAccess()
+                }
+            }
+        }
+        .task {
+            if hasCompletedPrivacyIntro || skipOnboarding {
+                await model.refresh()
+            }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            guard phase == .active, hasCompletedPrivacyIntro || skipOnboarding else { return }
+            Task { await model.refresh() }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .CNContactStoreDidChange)) { _ in
+            guard hasCompletedPrivacyIntro || skipOnboarding else { return }
+            Task { await model.refresh() }
+        }
+    }
 }

@@ -8,6 +8,8 @@
 
 /* Begin PBXFileReference section */
 		633A5DDB302324CD00D23D58 /* InTouch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InTouch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A10000010000000000000001 /* InTouchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InTouchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000010000000000000001 /* InTouchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InTouchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -16,10 +18,51 @@
 			path = InTouch;
 			sourceTree = "<group>";
 		};
+		A10000020000000000000002 /* InTouchTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = InTouchTests;
+			sourceTree = "<group>";
+		};
+		A20000020000000000000002 /* InTouchUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = InTouchUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXContainerItemProxy section */
+		A10000030000000000000003 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 633A5DD3302324CD00D23D58 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 633A5DDA302324CD00D23D58;
+			remoteInfo = InTouch;
+		};
+		A20000030000000000000003 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 633A5DD3302324CD00D23D58 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 633A5DDA302324CD00D23D58;
+			remoteInfo = InTouch;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		633A5DD8302324CD00D23D58 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10000040000000000000004 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A20000040000000000000004 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				633A5DDD302324CD00D23D58 /* InTouch */,
+				A10000020000000000000002 /* InTouchTests */,
+				A20000020000000000000002 /* InTouchUITests */,
 				633A5DDC302324CD00D23D58 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +86,8 @@
 			isa = PBXGroup;
 			children = (
 				633A5DDB302324CD00D23D58 /* InTouch.app */,
+				A10000010000000000000001 /* InTouchTests.xctest */,
+				A20000010000000000000001 /* InTouchUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +117,52 @@
 			productReference = 633A5DDB302324CD00D23D58 /* InTouch.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A10000050000000000000005 /* InTouchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A100000A000000000000000A /* Build configuration list for PBXNativeTarget "InTouchTests" */;
+			buildPhases = (
+				A10000070000000000000007 /* Sources */,
+				A10000040000000000000004 /* Frameworks */,
+				A10000060000000000000006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A10000090000000000000009 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A10000020000000000000002 /* InTouchTests */,
+			);
+			name = InTouchTests;
+			packageProductDependencies = (
+			);
+			productName = InTouchTests;
+			productReference = A10000010000000000000001 /* InTouchTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A20000050000000000000005 /* InTouchUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A200000A000000000000000A /* Build configuration list for PBXNativeTarget "InTouchUITests" */;
+			buildPhases = (
+				A20000070000000000000007 /* Sources */,
+				A20000040000000000000004 /* Frameworks */,
+				A20000060000000000000006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A20000090000000000000009 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A20000020000000000000002 /* InTouchUITests */,
+			);
+			name = InTouchUITests;
+			packageProductDependencies = (
+			);
+			productName = InTouchUITests;
+			productReference = A20000010000000000000001 /* InTouchUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +175,14 @@
 				TargetAttributes = {
 					633A5DDA302324CD00D23D58 = {
 						CreatedOnToolsVersion = 26.6;
+					};
+					A10000050000000000000005 = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = 633A5DDA302324CD00D23D58;
+					};
+					A20000050000000000000005 = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = 633A5DDA302324CD00D23D58;
 					};
 				};
 			};
@@ -100,12 +201,28 @@
 			projectRoot = "";
 			targets = (
 				633A5DDA302324CD00D23D58 /* InTouch */,
+				A10000050000000000000005 /* InTouchTests */,
+				A20000050000000000000005 /* InTouchUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		633A5DD9302324CD00D23D58 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A10000060000000000000006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A20000060000000000000006 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +239,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A10000070000000000000007 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A20000070000000000000007 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A10000090000000000000009 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 633A5DDA302324CD00D23D58 /* InTouch */;
+			targetProxy = A10000030000000000000003 /* PBXContainerItemProxy */;
+		};
+		A20000090000000000000009 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 633A5DDA302324CD00D23D58 /* InTouch */;
+			targetProxy = A20000030000000000000003 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		633A5DE4302324CF00D23D58 /* Debug */ = {
@@ -177,7 +321,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -234,7 +378,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -254,10 +398,11 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_NSContactsUsageDescription = "InTouch uses your contacts only to suggest people you may want to call. Contact details stay on your device.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -271,7 +416,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -285,10 +430,11 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_NSContactsUsageDescription = "InTouch uses your contacts only to suggest people you may want to call. Contact details stay on your device.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -302,7 +448,73 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		A100000B000000000000000B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Engstrom.InTouchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/InTouch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/InTouch";
+			};
+			name = Debug;
+		};
+		A100000C000000000000000C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Engstrom.InTouchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/InTouch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/InTouch";
+			};
+			name = Release;
+		};
+		A200000B000000000000000B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Engstrom.InTouchUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = InTouch;
+			};
+			name = Debug;
+		};
+		A200000C000000000000000C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Engstrom.InTouchUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = InTouch;
 			};
 			name = Release;
 		};
@@ -323,6 +535,24 @@
 			buildConfigurations = (
 				633A5DE7302324CF00D23D58 /* Debug */,
 				633A5DE8302324CF00D23D58 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A100000A000000000000000A /* Build configuration list for PBXNativeTarget "InTouchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A100000B000000000000000B /* Debug */,
+				A100000C000000000000000C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A200000A000000000000000A /* Build configuration list for PBXNativeTarget "InTouchUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A200000B000000000000000B /* Debug */,
+				A200000C000000000000000C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
