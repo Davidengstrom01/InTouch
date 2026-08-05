@@ -38,4 +38,27 @@ final class InTouchUITests: XCTestCase {
         XCTAssertEqual(app.staticTexts["callsOpenedValue"].label, "1")
         XCTAssertEqual(app.staticTexts["uniquePeopleValue"].label, "1")
     }
+
+    func testSkippingShowsSomeoneElseWithoutExcludingAnyone() {
+        app.buttons["suggestButton"].tap()
+        XCTAssertEqual(app.staticTexts["suggestedContactName"].label, "Alex Morgan")
+
+        app.buttons["skipButton"].tap()
+
+        XCTAssertEqual(app.staticTexts["suggestedContactName"].label, "Beatrice Nilsson")
+        app.buttons["settingsButton"].tap()
+        XCTAssertTrue(app.staticTexts["No one has been excluded."].waitForExistence(timeout: 2))
+    }
+
+    func testContactCanBeMarkedNotInterestedAndRestored() {
+        app.tabBars.buttons["Contacts"].tap()
+        XCTAssertTrue(app.staticTexts["Alex Morgan"].waitForExistence(timeout: 2))
+
+        app.buttons["Not interested in Alex Morgan"].tap()
+
+        XCTAssertTrue(app.staticTexts["Not interested"].waitForExistence(timeout: 2))
+        XCTAssertTrue(app.buttons["Restore Alex Morgan"].exists)
+        app.buttons["Restore Alex Morgan"].tap()
+        XCTAssertTrue(app.buttons["Not interested in Alex Morgan"].waitForExistence(timeout: 2))
+    }
 }

@@ -16,6 +16,16 @@ struct ExcludedPerson: Identifiable, Equatable {
     let displayName: String
 }
 
+struct ContactInsight: Identifiable, Equatable {
+    let contact: CallableContact
+    let openedAt: [Date]
+    let isExcluded: Bool
+
+    var id: String { contact.id }
+    var callOpenCount: Int { openedAt.count }
+    var lastOpenedAt: Date? { openedAt.max() }
+}
+
 @MainActor
 @Observable
 final class AppModel {
@@ -31,10 +41,12 @@ final class AppModel {
     private(set) var currentSuggestion: CallableContact?
     private(set) var summary: ActivitySummary = .empty
     private(set) var excludedPeople: [ExcludedPerson] = []
+    private(set) var contactInsights: [ContactInsight] = []
     private(set) var contactCount = 0
     var errorMessage: String?
 
     private var allContacts: [CallableContact] = []
+    private var sessionSkippedContactIDs: Set<String> = []
 
     init(
         contacts: any ContactProviding,
@@ -82,15 +94,41 @@ final class AppModel {
     }
 
     func requestSuggestion() {
+        sessionSkippedContactIDs.removeAll()
+        chooseSuggestion()
+    }
+
+    func skipCurrentSuggestion() {
+        guard let suggestion = currentSuggestion else { return }
+        sessionSkippedContactIDs.insert(suggestion.id)
+        currentSuggestion = nil
+        chooseSuggestion()
+    }
+
+    private func chooseSuggestion() {
         errorMessage = nil
         do {
+            let permanentlyExcludedIDs = try history.excludedContactIDs()
+            let activity = try history.activity()
             currentSuggestion = suggestionEngine.suggest(
                 from: allContacts,
-                excludedContactIDs: try history.excludedContactIDs(),
-                activity: try history.activity(),
+                excludedContactIDs: permanentlyExcludedIDs.union(sessionSkippedContactIDs),
+                activity: activity,
                 now: now(),
                 randomUnit: randomUnit()
             )
+
+            if currentSuggestion == nil, !sessionSkippedContactIDs.isEmpty {
+                sessionSkippedContactIDs.removeAll()
+                currentSuggestion = suggestionEngine.suggest(
+                    from: allContacts,
+                    excludedContactIDs: permanentlyExcludedIDs,
+                    activity: activity,
+                    now: now(),
+                    randomUnit: randomUnit()
+                )
+            }
+
             if currentSuggestion == nil {
                 updateContentState()
             }
@@ -111,8 +149,9 @@ final class AppModel {
 
         do {
             try history.recordHandoff(for: suggestion, at: now())
-            summary = try history.summary(forMonthContaining: now())
+            try refreshLocalDataThrowing()
             currentSuggestion = nil
+            sessionSkippedContactIDs.removeAll()
         } catch {
             errorMessage = "The calling screen opened, but InTouch couldn’t update your activity."
             currentSuggestion = nil
@@ -132,7 +171,7 @@ final class AppModel {
             currentSuggestion = nil
             updateContentState()
             if state == .ready {
-                requestSuggestion()
+                chooseSuggestion()
             }
         } catch {
             errorMessage = "InTouch couldn’t remember that choice. Please try again."
@@ -149,10 +188,31 @@ final class AppModel {
         }
     }
 
+    func markNotInterested(contactID: String) {
+        guard let contact = allContacts.first(where: { $0.id == contactID }) else { return }
+        errorMessage = nil
+        do {
+            try history.exclude(
+                contactID: contact.id,
+                phoneNumber: contact.phoneNumber,
+                at: now()
+            )
+            if currentSuggestion?.id == contactID {
+                currentSuggestion = nil
+            }
+            sessionSkippedContactIDs.remove(contactID)
+            try refreshLocalDataThrowing()
+            updateContentState()
+        } catch {
+            errorMessage = "InTouch couldn’t remember that choice. Please try again."
+        }
+    }
+
     func deleteAllData() {
         do {
             try history.deleteAllData()
             currentSuggestion = nil
+            sessionSkippedContactIDs.removeAll()
             try refreshLocalDataThrowing()
             updateContentState()
         } catch {
@@ -170,18 +230,35 @@ final class AppModel {
         } catch {
             summary = .empty
             excludedPeople = []
+            contactInsights = []
         }
     }
 
     private func refreshLocalDataThrowing() throws {
         summary = try history.summary(forMonthContaining: now())
         let nameByID = Dictionary(uniqueKeysWithValues: allContacts.map { ($0.id, $0.displayName) })
-        excludedPeople = try history.excludedRecords().map { record in
+        let excludedRecords = try history.excludedRecords()
+        excludedPeople = excludedRecords.map { record in
             ExcludedPerson(
                 id: record.contactID,
                 displayName: nameByID[record.contactID] ?? "Unavailable contact"
             )
         }
+        let excludedIDs = Set(excludedRecords.map(\.contactID))
+        let activityByContact = Dictionary(grouping: try history.activity(), by: \.contactID)
+        contactInsights = allContacts
+            .map { contact in
+                ContactInsight(
+                    contact: contact,
+                    openedAt: activityByContact[contact.id, default: []]
+                        .map(\.openedAt)
+                        .sorted(by: >),
+                    isExcluded: excludedIDs.contains(contact.id)
+                )
+            }
+            .sorted {
+                $0.contact.displayName.localizedCaseInsensitiveCompare($1.contact.displayName) == .orderedAscending
+            }
     }
 
     private func updateContentState() {

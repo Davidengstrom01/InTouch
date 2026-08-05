@@ -128,6 +128,7 @@ struct HomeView: View {
                     SuggestionCard(
                         contact: suggestion,
                         callAction: { Task { await model.callCurrentSuggestion() } },
+                        skipAction: model.skipCurrentSuggestion,
                         rejectAction: model.rejectCurrentSuggestion
                     )
                     .transition(.scale.combined(with: .opacity))
@@ -195,17 +196,18 @@ private struct ActivityTile: View {
 private struct SuggestionCard: View {
     let contact: CallableContact
     let callAction: () -> Void
+    let skipAction: () -> Void
     let rejectAction: () -> Void
 
     var body: some View {
-        VStack(spacing: 22) {
+        VStack(spacing: 16) {
             Text("How about")
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.secondary)
                 .textCase(.uppercase)
                 .tracking(1.2)
 
-            ContactAvatar(contact: contact, size: 112)
+            ContactAvatar(contact: contact, size: 88)
 
             Text(contact.displayName)
                 .font(.system(.title, design: .rounded, weight: .bold))
@@ -216,7 +218,7 @@ private struct SuggestionCard: View {
                 Label("Call", systemImage: "phone.fill")
                     .font(.headline)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 54)
+                    .frame(height: 50)
             }
             .buttonStyle(.borderedProminent)
             .tint(InTouchPalette.accent)
@@ -224,13 +226,24 @@ private struct SuggestionCard: View {
             .accessibilityHint("Opens the iPhone calling screen with the phone number ready")
             .accessibilityIdentifier("callButton")
 
+            Button(action: skipAction) {
+                Label("Skip", systemImage: "arrow.right")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 44)
+            }
+            .buttonStyle(.bordered)
+            .tint(InTouchPalette.accent)
+            .accessibilityHint("Shows someone else without changing future suggestions")
+            .accessibilityIdentifier("skipButton")
+
             Button("I don’t want to call this person", action: rejectAction)
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(.secondary)
                 .accessibilityHint("Permanently removes this person from suggestions. This can be undone in Settings.")
                 .accessibilityIdentifier("rejectButton")
         }
-        .padding(26)
+        .padding(22)
         .background(.background.opacity(0.9), in: RoundedRectangle(cornerRadius: 32, style: .continuous))
         .shadow(color: .black.opacity(0.07), radius: 18, y: 8)
     }

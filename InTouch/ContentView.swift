@@ -16,7 +16,7 @@ struct ContentView: View {
     var body: some View {
         Group {
             if hasCompletedPrivacyIntro || skipOnboarding {
-                HomeView(model: model)
+                MainTabView(model: model)
             } else {
                 OnboardingView {
                     hasCompletedPrivacyIntro = true
